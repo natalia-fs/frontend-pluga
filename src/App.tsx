@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
+import Card from './components/Card';
 import './styles/App.css';
 import './styles/reset.css';
 
@@ -30,16 +31,6 @@ function App() {
     fetchData();
   }, []);
 
-  const currentPageData = data
-  .slice(offset, offset + ITEMS_PER_PAGE)
-  .map(( item: PlugaApp ) => {
-    return (
-      <div key={item.app_id}>
-        <p>{item.name}</p>
-      </div>
-    )
-  });
-
   function fetchData(): void {
     fetch(URL_JSON)
       .then((res) => res.json())
@@ -56,14 +47,12 @@ function App() {
   }
 
   return (
-    <>
+    <div className='App'>
       <h1>Apps</h1>
       <div className='apps_container'>
         { data.slice(offset, offset +ITEMS_PER_PAGE).map((item: PlugaApp) => {
           return (
-            <div key={item.app_id}>
-              <p>{item.name}</p>
-            </div>
+            <Card key={item.app_id} item={item} />
           )
         }) }
       </div>
@@ -79,7 +68,7 @@ function App() {
         disabledClassName={"pagination__link--disabled"}
         activeClassName={"pagination__link--active"}
       />
-    </>
+    </div>
   )
 }
 
