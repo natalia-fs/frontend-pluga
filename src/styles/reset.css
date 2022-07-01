@@ -1,5 +1,38 @@
 @import url('./Pagination.css');
 
+
+:root{
+  --background: #141414;
+  --text: #e5e5e5;
+  --text-variant: #202020;
+  --card-background: #d0d0d0;
+}
+
+@media(max-width: 1080px){
+  html {
+    font-size: 93.75%;
+  }
+}
+@media(max-width: 720px){
+  html {
+    font-size: 87.5%;
+  }
+}
+
+body{
+  background: var(--background);
+  color: var(--text);
+}
+
+body, button, textarea, input {
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+button{
+  cursor: pointer;
+}
+
 a {
   text-decoration: none;
   color: inherit;
