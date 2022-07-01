@@ -1,44 +1,50 @@
-import { useState } from 'react'
-import logo from './logo.svg'
+import { useState, useEffect } from 'react';
 import './App.css'
 
+const ITEMS_PER_PAGE = 12;
+const URL_JSON = 'https://pluga.co/ferramentas_search.json';
+
+export interface PlugaApp{
+  app_id: string;
+  name: string;
+  color: string;
+  icon: string;
+  link: string;
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [data, setData] = useState([]);
+
+  const [selectedItem, setSelectedItem] = useState(null);
+
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  function fetchData(): void {
+    fetch(URL_JSON)
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <>
+      <h1>Apps</h1>
+      <ul>
+        {data && data.map((item: PlugaApp) => {
+          return (
+            <li key={item.app_id}>{item.name}</li>
+          )
+        })}
+      </ul>
+    </>
   )
 }
 
