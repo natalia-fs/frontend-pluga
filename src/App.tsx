@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
-import './App.css';
+import './styles/App.css';
+import './styles/reset.css';
 
 const ITEMS_PER_PAGE = 12;
 const URL_JSON = 'https://pluga.co/ferramentas_search.json';
@@ -82,4 +83,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
