@@ -16,6 +16,7 @@ ul.pagination>li.next {
   border: 1px solid grey;
   cursor: pointer;
   background-color: lightgray;
+  color: var(--text-variant);
 }
 
 ul.pagination>li.pagination__link--active {
