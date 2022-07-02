@@ -30,6 +30,7 @@ function App() {
   // Modal
   const [isAppModalOpen, setIsAppModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<PlugaApp | null>(null);
+  const [lastestItens, setLastestItens] = useState<Array<PlugaApp>>([]);
   
   useEffect(() => {
     fetchData();
@@ -57,6 +58,13 @@ function App() {
 
   function handleOpenAppModal(){
     setIsAppModalOpen(true);
+    if(selectedItem != null){
+      let items = [...lastestItens, selectedItem];
+      if (items.length>=3)
+        setLastestItens([...items.slice(items.length-3, items.length)]);
+      else
+        setLastestItens(items);
+    }
   }
   function handleCloseAppModal(){
     setIsAppModalOpen(false);
@@ -66,7 +74,12 @@ function App() {
     <div className='App'>
       <h1>Apps</h1>
 
-      <AppModal isOpen={isAppModalOpen} onRequestClose={handleCloseAppModal} item={selectedItem}/>
+      <AppModal
+        isOpen={isAppModalOpen}
+        onRequestClose={handleCloseAppModal}
+        item={selectedItem}
+        lastestItems={lastestItens}
+      />
 
       <div className='apps_container'>
         { data.slice(offset, offset +ITEMS_PER_PAGE).map((item: PlugaApp) => {
