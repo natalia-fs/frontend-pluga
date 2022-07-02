@@ -1,11 +1,11 @@
 @import url('./Pagination.css');
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root{
   --background: #141414;
   --text: #e5e5e5;
   --text-variant: #202020;
-  --card-background: #d0d0d0;
+  --card-background: #2c2c2c;
 }
 
 @media(max-width: 1080px){
@@ -27,6 +27,7 @@ body{
 body, button, textarea, input {
   font-weight: 400;
   font-size: 1rem;
+  font: 400 1rem Inter, sans-serif;
 }
 
 button{
