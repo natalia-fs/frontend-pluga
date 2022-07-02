@@ -2,9 +2,9 @@
   color: var(--text);
   background: var(--background);
   margin: 2rem 1rem;
+  min-height: 30rem;
 }
 .selectedItem__container{
-  max-height: 20rem;
   margin-bottom: 2rem;
 
   display: flex;
@@ -20,7 +20,7 @@ img.selectedItem__image {
   margin: 1rem;
   padding: 1rem;
 
-  border-radius: 50%;
+  border-radius: .8rem;
 }
 
 .selectedItem__infos {
@@ -60,6 +60,12 @@ img.selectedItem__image {
   justify-content: center;
 }
 
+.modal__apps h4{
+  background: var(--card-background);
+  padding: 3rem;
+  border-radius: .4rem;
+}
+
 .modal__apps-item{
   display: flex;
   flex-direction: column;
@@ -90,7 +96,7 @@ img.selectedItem__image {
   position: absolute;
   margin: auto auto;
   width: 70%;
-  height: 40rem;
+  height: 45rem;
   inset: 40px;
   background-color: var(--background);
   border-radius: .4rem;

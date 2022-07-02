@@ -32,14 +32,19 @@ export function AppModal({isOpen, onRequestClose, item, lastestItems}: AppModalP
           <h3>Ultímas ferramentas visualizadas</h3>
           <ul>
             {
-              lastestItems && lastestItems.map((app: PlugaApp) =>{
-                return (
-                  <li className="modal__apps-item" key={app.app_id}>
-                    <img src={app.icon} alt={`${app.name} icon`} style={{backgroundColor: app?.color}} />
-                    <p>{app.name}</p>
-                  </li>
-                )
-              })
+              lastestItems.length
+              ? (lastestItems.map((app: PlugaApp) =>{
+                  return (
+                    <li className="modal__apps-item" key={app.app_id}>
+                      <img src={app.icon} alt={`${app.name} icon`} style={{backgroundColor: app?.color}} />
+                      <p>{app.name}</p>
+                    </li>
+                  )
+                })
+              )
+              : (
+                <h4>Visualize mais ferramentas para preencher este espaço 😉</h4>
+              )
             }
             
           </ul>
