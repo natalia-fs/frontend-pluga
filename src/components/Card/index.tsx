@@ -6,7 +6,7 @@ type PlugaApp = {
   icon: string;
 }
 
-export interface CardProps{
+interface CardProps{
   item: PlugaApp;
 }
 
