@@ -1,0 +1,91 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+button {
+  font-size: calc(10px + 2vmin);
+}
+
+.apps_container{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin: 3rem 2rem;
+}
+
+.searchbar__container{
+  width: 90%;
+  background: var(--card-background);
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: .4rem;
+  margin: 1rem auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.searchbar__container input{
+  background: var(--background);
+  color: var(--text);
+  padding: .5rem;
+  border-radius: .4rem;
+  width: 92%;
+}
+
+.searchbar__container span{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 .8rem;
+}
+
+.searchbar__container img{
+  width: 1.6rem;
+  height: 1.6rem;
+  object-fit: contain;
+  padding: .4rem;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.searchbar__container img:hover{
+  background: var(--background);
+  border-radius: .4rem;
+}
