@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ReactPaginate from 'react-paginate';
+import { AppModal } from './components/AppModal';
+import Card from './components/Card';
 import './styles/App.css';
 import './styles/reset.css';
 
@@ -21,30 +23,28 @@ export type pageChange = {
 function App() {
 
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   // Pagination states and variables
   const [currentPage, setCurrentPage] = useState(0);
   const offset = currentPage * ITEMS_PER_PAGE;
   const pageCount = Math.ceil( data.length / ITEMS_PER_PAGE );
+  // Modal
+  const [isAppModalOpen, setIsAppModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<PlugaApp | null>(null);
+  const [lastestItens, setLastestItens] = useState<Array<PlugaApp>>([]);
+
+  const inputSearchbar = useRef<HTMLInputElement>(null);
   
   useEffect(() => {
     fetchData();
   }, []);
-
-  const currentPageData = data
-  .slice(offset, offset + ITEMS_PER_PAGE)
-  .map(( item: PlugaApp ) => {
-    return (
-      <div key={item.app_id}>
-        <p>{item.name}</p>
-      </div>
-    )
-  });
 
   function fetchData(): void {
     fetch(URL_JSON)
       .then((res) => res.json())
       .then((data) => {
         setData(data);
+        setFilteredData(data);
       })
       .catch(error => {
         console.error(error);
@@ -54,19 +54,75 @@ function App() {
   function handlePageClick(page: pageChange) {
     setCurrentPage(page.selected);
   }
+  
+  function selectItemByClick(item: PlugaApp){
+    setSelectedItem(item);
+    handleOpenAppModal();
+  }
+
+  function handleOpenAppModal(){
+    setIsAppModalOpen(true);
+    if(selectedItem != null){
+      let items = [...lastestItens, selectedItem];
+      if (items.length>=3)
+        setLastestItens([...items.slice(items.length-3, items.length)]);
+      else
+        setLastestItens(items);
+    }
+  }
+  function handleCloseAppModal(){
+    setIsAppModalOpen(false);
+  }
+
+  function handleSearchApp(){
+    let searchString: string = inputSearchbar?.current?.value || '';
+    if(searchString !== undefined && searchString !== ''){
+      let items = data.filter((item: PlugaApp) => {
+        return item.name.includes(searchString)
+      })
+      setFilteredData(items);
+    }
+  }
+
+  function handleClearSearch(){
+    setFilteredData(data);
+  }
 
   return (
-    <>
-      <h1>Apps</h1>
+    <div className='App'>
+
+      <div className="searchbar__container">
+        <span role="button" onClick={handleSearchApp} title="Buscar">
+          <img src="./icons/search.svg" alt="Search icon" />
+        </span>
+        <input type="text" ref={inputSearchbar} placeholder='Buscar ferramenta' />
+        <span role="button" onClick={handleClearSearch} title="Limpar busca">
+          <img src="./icons/close.svg" alt="Search icon" />
+        </span>
+      </div>
+
+      <AppModal
+        isOpen={isAppModalOpen}
+        onRequestClose={handleCloseAppModal}
+        item={selectedItem}
+        lastestItems={lastestItens}
+      />
+
       <div className='apps_container'>
-        { data.slice(offset, offset +ITEMS_PER_PAGE).map((item: PlugaApp) => {
+        { filteredData.slice(offset, offset +ITEMS_PER_PAGE).map((item: PlugaApp) => {
           return (
-            <div key={item.app_id}>
-              <p>{item.name}</p>
+            <div
+              onClick={() => selectItemByClick(item)}
+              key={item.app_id}
+            >
+              <Card
+                item={item}
+              />
             </div>
           )
         }) }
       </div>
+
       <ReactPaginate
         pageCount={pageCount}
         previousLabel={"←"}
@@ -79,7 +135,7 @@ function App() {
         disabledClassName={"pagination__link--disabled"}
         activeClassName={"pagination__link--active"}
       />
-    </>
+    </div>
   )
 }
 
