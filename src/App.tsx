@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ReactPaginate from 'react-paginate';
 import { AppModal } from './components/AppModal';
 import Card from './components/Card';
@@ -23,6 +23,7 @@ export type pageChange = {
 function App() {
 
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   // Pagination states and variables
   const [currentPage, setCurrentPage] = useState(0);
   const offset = currentPage * ITEMS_PER_PAGE;
@@ -31,6 +32,8 @@ function App() {
   const [isAppModalOpen, setIsAppModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<PlugaApp | null>(null);
   const [lastestItens, setLastestItens] = useState<Array<PlugaApp>>([]);
+
+  const inputSearchbar = useRef<HTMLInputElement>(null);
   
   useEffect(() => {
     fetchData();
@@ -41,6 +44,7 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         setData(data);
+        setFilteredData(data);
       })
       .catch(error => {
         console.error(error);
@@ -70,9 +74,28 @@ function App() {
     setIsAppModalOpen(false);
   }
 
+  function handleSearchApp(){
+    let searchString: string = inputSearchbar?.current?.value || '';
+    if(searchString !== undefined && searchString !== ''){
+      let items = data.filter((item: PlugaApp) => {
+        return item.name.includes(searchString)
+      })
+      setFilteredData(items);
+    }
+  }
+
   return (
     <div className='App'>
-      <h1>Apps</h1>
+
+      <div className="searchbar__container">
+        <span role="button" onClick={handleSearchApp} title="Buscar">
+          <img src="./icons/search.svg" alt="Search icon" />
+        </span>
+        <input type="text" ref={inputSearchbar} placeholder='Buscar ferramenta' />
+        <span role="button" onClick={handleSearchApp} title="Limpar busca">
+          <img src="./icons/close.svg" alt="Search icon" />
+        </span>
+      </div>
 
       <AppModal
         isOpen={isAppModalOpen}
@@ -82,7 +105,7 @@ function App() {
       />
 
       <div className='apps_container'>
-        { data.slice(offset, offset +ITEMS_PER_PAGE).map((item: PlugaApp) => {
+        { filteredData.slice(offset, offset +ITEMS_PER_PAGE).map((item: PlugaApp) => {
           return (
             <div
               onClick={() => selectItemByClick(item)}
