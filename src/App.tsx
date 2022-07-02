@@ -84,6 +84,10 @@ function App() {
     }
   }
 
+  function handleClearSearch(){
+    setFilteredData(data);
+  }
+
   return (
     <div className='App'>
 
@@ -92,7 +96,7 @@ function App() {
           <img src="./icons/search.svg" alt="Search icon" />
         </span>
         <input type="text" ref={inputSearchbar} placeholder='Buscar ferramenta' />
-        <span role="button" onClick={handleSearchApp} title="Limpar busca">
+        <span role="button" onClick={handleClearSearch} title="Limpar busca">
           <img src="./icons/close.svg" alt="Search icon" />
         </span>
       </div>
