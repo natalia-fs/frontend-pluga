@@ -21,7 +21,7 @@ export function AppModal({isOpen, onRequestClose, item, lastestItems}: AppModalP
     >
       <div className="modal__container">
         <div className="selectedItem__container">
-          <img src={item?.icon} alt="" className="selectedItem__image" />
+          <img src={item?.icon} alt="" className="selectedItem__image" style={{backgroundColor: item?.color}} />
           <div className="selectedItem__infos">
             <p>{item?.name || ''}</p>
             <a href={item?.link} target="_blank">Acessar</a>
@@ -35,7 +35,7 @@ export function AppModal({isOpen, onRequestClose, item, lastestItems}: AppModalP
               lastestItems && lastestItems.map((app: PlugaApp) =>{
                 return (
                   <li className="modal__apps-item" key={app.app_id}>
-                    <img src={app.icon} alt={`${app.name} icon`} />
+                    <img src={app.icon} alt={`${app.name} icon`} style={{backgroundColor: app?.color}} />
                     <p>{app.name}</p>
                   </li>
                 )
