@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import ReactPaginate from 'react-paginate';
 import { AppModal } from './components/AppModal';
 import Card from './components/Card';
@@ -27,7 +27,7 @@ function App() {
   // Pagination states and variables
   const [currentPage, setCurrentPage] = useState(0);
   const offset = currentPage * ITEMS_PER_PAGE;
-  const pageCount = Math.ceil( data.length / ITEMS_PER_PAGE );
+  const pageCount = Math.ceil( filteredData.length / ITEMS_PER_PAGE );
   // Modal
   const [isAppModalOpen, setIsAppModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<PlugaApp | null>(null);
@@ -78,7 +78,8 @@ function App() {
     let searchString: string = inputSearchbar?.current?.value || '';
     if(searchString !== undefined && searchString !== ''){
       let items = data.filter((item: PlugaApp) => {
-        return item.name.includes(searchString)
+        let item_name = item.name.toLowerCase();
+        return item_name.includes(searchString.toLowerCase());
       })
       setFilteredData(items);
     }
@@ -88,15 +89,40 @@ function App() {
     setFilteredData(data);
   }
 
+  // Making searchbar works with keyboard control
+  function handleActivateSearchByKeyboard(event: KeyboardEvent){
+    if(event.key === 'Enter'){
+      handleSearchApp();
+    }
+  }
+
+  function handleClearSearchByKeyboard(event: KeyboardEvent){
+    if(event.key === 'Enter'){
+      setFilteredData(data);
+    }
+  }
+
   return (
     <div className='App'>
 
       <div className="searchbar__container">
-        <span role="button" onClick={handleSearchApp} title="Buscar">
+        <span
+          role="button"
+          title="Buscar"
+          tabIndex={0}
+          onClick={handleSearchApp}
+          onKeyDown={handleActivateSearchByKeyboard}
+        >
           <img src="./icons/search.svg" alt="Search icon" />
         </span>
         <input type="text" ref={inputSearchbar} placeholder='Buscar ferramenta' />
-        <span role="button" onClick={handleClearSearch} title="Limpar busca">
+        <span
+          role="button"
+          title="Limpar busca"
+          tabIndex={0}
+          onClick={handleClearSearch}
+          onKeyDown={handleClearSearchByKeyboard}
+        >
           <img src="./icons/close.svg" alt="Search icon" />
         </span>
       </div>
@@ -109,7 +135,7 @@ function App() {
       />
 
       <div className='apps_container'>
-        { filteredData.slice(offset, offset +ITEMS_PER_PAGE).map((item: PlugaApp) => {
+        { filteredData.slice(offset, offset + ITEMS_PER_PAGE).map((item: PlugaApp) => {
           return (
             <div
               onClick={() => selectItemByClick(item)}
