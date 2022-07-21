@@ -78,7 +78,8 @@ function App() {
     let searchString: string = inputSearchbar?.current?.value || '';
     if(searchString !== undefined && searchString !== ''){
       let items = data.filter((item: PlugaApp) => {
-        return item.name.includes(searchString)
+        let item_name = item.name.toLowerCase();
+        return item_name.includes(searchString.toLowerCase());
       })
       setFilteredData(items);
     }
@@ -109,7 +110,7 @@ function App() {
       />
 
       <div className='apps_container'>
-        { filteredData.slice(offset, offset +ITEMS_PER_PAGE).map((item: PlugaApp) => {
+        { filteredData.slice(offset, offset + ITEMS_PER_PAGE).map((item: PlugaApp) => {
           return (
             <div
               onClick={() => selectItemByClick(item)}
