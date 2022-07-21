@@ -27,7 +27,7 @@ function App() {
   // Pagination states and variables
   const [currentPage, setCurrentPage] = useState(0);
   const offset = currentPage * ITEMS_PER_PAGE;
-  const pageCount = Math.ceil( data.length / ITEMS_PER_PAGE );
+  const pageCount = Math.ceil( filteredData.length / ITEMS_PER_PAGE );
   // Modal
   const [isAppModalOpen, setIsAppModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<PlugaApp | null>(null);
