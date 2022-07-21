@@ -38,3 +38,7 @@ ul.pagination>li.previous {
 ul.pagination>li.next {
   border-radius: 0 .5rem .5rem 0rem;
 }
+
+ul.pagination>li.previous a, ul.pagination>li.next a{
+  padding: .5rem 1rem;
+}
