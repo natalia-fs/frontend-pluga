@@ -75,10 +75,10 @@ function App() {
   }
 
   function handleSearchApp(){
-    let searchString: string = inputSearchbar?.current?.value || '';
-    if(searchString !== undefined && searchString !== ''){
-      let items = data.filter((item: PlugaApp) => {
-        let item_name = item.name.toLowerCase();
+    const searchString: string = inputSearchbar?.current?.value || '';
+    if(searchString !== ''){
+      const items = data.filter((item: PlugaApp) => {
+        const item_name = item.name.toLowerCase();
         return item_name.includes(searchString.toLowerCase());
       })
       setFilteredData(items);
