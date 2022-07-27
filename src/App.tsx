@@ -135,18 +135,22 @@ function App() {
       />
 
       <div className='apps_container'>
-        { filteredData.slice(offset, offset + ITEMS_PER_PAGE).map((item: PlugaApp) => {
-          return (
-            <div
-              onClick={() => selectItemByClick(item)}
-              key={item.app_id}
-            >
-              <Card
-                item={item}
-              />
-            </div>
-          )
-        }) }
+        {
+          filteredData.length
+          ? filteredData.slice(offset, offset + ITEMS_PER_PAGE).map((item: PlugaApp) => {
+            return (
+              <div
+                onClick={() => selectItemByClick(item)}
+                key={item.app_id}
+              >
+                <Card
+                  item={item}
+                />
+              </div>
+            )
+          })
+          : <h4 className='empty_search'>Sem resultados para esta busca 🙁</h4>
+        }
       </div>
 
       <ReactPaginate
